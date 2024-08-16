@@ -1,0 +1,134 @@
+{{template "base" .}} {{define "content"}}
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <h1 class="mt-3">Design Patterns in Go</h1>
+      <hr />
+      <div>
+        <a
+          class="btn btn-outline-secondary"
+          id="dog-factory-btn"
+          href="javascript:void(0);"
+        >
+          Get a dog from factory
+        </a>
+        <a
+          class="btn btn-outline-secondary"
+          id="cat-factory-btn"
+          href="javascript:void(0);"
+        >
+          Get a cat from factory
+        </a>
+      </div>
+      <div class="mt-3">
+        <pre
+          id="dog-factory-output"
+          style="outline: 1px solid silver; padding: 2em"
+        >
+        <span class="text-muted">Nothing received yet...</span>
+        </pre>
+      </div>
+      <hr class="mt-4" />
+      <h3 class="mt-3">Abstract Factory</h3>
+      <div>
+        <a
+          href="javascript:void(0);"
+          id="dog-abstract-btn"
+          class="btn btn-outline-secondary"
+          >Get a dog from abstract factory</a
+        >
+        <a
+          href="javascript:void(0);"
+          id="cat-abstract-btn"
+          class="btn btn-outline-secondary"
+          >Get a cat from abstract factory</a
+        >
+      </div>
+      <div class="mt-3">
+        <pre
+          id="abstract-output"
+          style="outline: 1px solid silver; padding: 2em"
+        >
+        <span class="text-muted">Nothing received yet...</span>
+        </pre>
+      </div>
+    </div>
+  </div>
+</div>
+{{end}} {{define "js"}}
+<script>
+  let dogFactoryBtn = document.getElementById("dog-factory-btn");
+  let catFactoryBtn = document.getElementById("cat-factory-btn");
+  let dogAbstractBtn = document.getElementById("dog-abstract-btn");
+  let catAbstractBtn = document.getElementById("cat-abstract-btn");
+
+  let dogFactoryOutput = document.getElementById("dog-factory-output");
+  let abstractOutput = document.getElementById("abstract-output");
+
+  document.addEventListener("DOMContentLoaded", function () {
+    dogFactoryBtn.addEventListener("click", function () {
+      fetch("api/dog-from-factory", { method: "GET" })
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.error) {
+            dogFactoryOutput.innerHTML = data.error;
+            return;
+          }
+          dogFactoryOutput.innerHTML = JSON.stringify(data, null, 2);
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+        });
+    });
+
+    catFactoryBtn.addEventListener("click", function () {
+      fetch("api/cat-from-factory", { method: "GET" })
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.error) {
+            dogFactoryOutput.innerHTML = data.error;
+            return;
+          }
+          dogFactoryOutput.innerHTML = JSON.stringify(data, null, 2);
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+        });
+    });
+  });
+
+  document.addEventListener("DOMContentLoaded", function () {
+    dogAbstractBtn.addEventListener("click", function () {
+      fetch("api/dog-from-abstract-factory", { method: "GET" })
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.error) {
+            abstractOutput.innerHTML = data.error;
+            return;
+          }
+          abstractOutput.innerHTML = JSON.stringify(data, null, 2);
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+        });
+    });
+  });
+
+  document.addEventListener("DOMContentLoaded", function () {
+    catAbstractBtn.addEventListener("click", function () {
+      fetch("api/cat-from-abstract-factory", { method: "GET" })
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.error) {
+            abstractOutput.innerHTML = data.error;
+            return;
+          }
+          abstractOutput.innerHTML = JSON.stringify(data, null, 2);
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+        });
+    });
+  });
+</script>
+{{end}}
