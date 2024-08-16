@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"flag"
 	"fmt"
+	"go-breeders/models"
 	"html/template"
 	"log"
 	"net/http"
@@ -16,6 +17,7 @@ type application struct {
 	templateMap map[string]*template.Template
 	config      appConfig
 	DB          *sql.DB
+	Models      models.Models
 }
 
 type appConfig struct {
@@ -36,7 +38,7 @@ func main() {
 		log.Panic(err)
 	}
 	app.DB = db
-
+	app.Models = *models.New(db)
 	srv := &http.Server{
 		Addr:              port,
 		Handler:           app.routes(),
